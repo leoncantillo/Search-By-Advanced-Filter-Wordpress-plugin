@@ -3,6 +3,19 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Hook to validate that the WooCommerce plugin is enabled.
+function safp_check_woocommerce_and_register_shortcode() {
+    if (class_exists('WooCommerce')) {
+        add_shortcode('search_advanced_filter', 'search_advanced_filter_shortcode');
+    } else {
+        add_shortcode('search_advanced_filter', function() {
+            return '<p>El plugin WooCommerce no está activo. Por favor, actívalo para utilizar la búsqueda avanzada de productos.</p>';
+        });
+    }
+}
+
+add_action('init', 'safp_check_woocommerce_and_register_shortcode');
+
 function search_advanced_filter_shortcode($atts) {
     $marcas = get_terms(array(
         'taxonomy' => 'marca',
@@ -143,5 +156,3 @@ function search_advanced_filter_shortcode($atts) {
     <?php
     return ob_get_clean();
 }
-
-add_shortcode('search_advanced_filter', 'search_advanced_filter_shortcode');
