@@ -2,7 +2,7 @@
 /**
  * Plugin Name:  Search By Advanced Filter
  * Plugin URI:   https://github.com/LeonCantillo
- * Description:  Plugin created for the company Autoexpert "https://autoxpert.expressactionllc.com/" to implement an advanced search basen in filters.
+ * Description:  Plugin created for the company Autoexpert "https://autoxpert.expressactionllc.com/" to implement an advanced search based on filters. **Requires WooCommerce to be active**.
  * Version:      1.0
  * Author:       León Cantillo
  * Author URI:   https://github.com/LeonCantillo
