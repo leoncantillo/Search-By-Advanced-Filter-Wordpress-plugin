@@ -40,22 +40,22 @@ function search_advanced_filter_shortcode($atts) {
     // HTML del formulario de selección
     ob_start();
     ?>
-    <form id="search-advanced-filter-form" method="GET">
-        <select name="marca" id="marca">
+    <form id="safp-filter-form" method="GET">
+        <select name="marca" id="safp-marca">
             <option value="">Selecciona una marca</option>
             <?php foreach ($marcas_array as $marca) : ?>
                 <option value="<?php echo esc_attr($marca->slug); ?>"><?php echo esc_html($marca->name); ?></option>
             <?php endforeach; ?>
         </select>
 
-        <select name="modelo" id="modelo">
+        <select name="modelo" id="safp-modelo">
             <option value="">Selecciona un modelo</option>
             <?php foreach ($modelos_array as $modelo) : ?>
                 <option value="<?php echo esc_attr($modelo->slug); ?>"><?php echo esc_html($modelo->name); ?></option>
             <?php endforeach; ?>
         </select>
 
-        <select name="ano" id="ano">
+        <select name="ano" id="safp-ano">
             <option value="">Selecciona un año</option>
             <?php foreach ($años_array as $año) : ?>
                 <option value="<?php echo esc_attr($año->slug); ?>"><?php echo esc_html($año->name); ?></option>
@@ -65,7 +65,7 @@ function search_advanced_filter_shortcode($atts) {
         <button type="submit">Filtrar</button>
     </form>
 
-    <div id="filtered-results">
+    <div id="safp-filtered-results">
         <?php
         if (isset($_GET['marca']) || isset($_GET['modelo']) || isset($_GET['ano'])) {
             // Parámetros de la consulta
@@ -103,10 +103,32 @@ function search_advanced_filter_shortcode($atts) {
             $query = new WP_Query($args);
 
             if ($query->have_posts()) {
-                echo '<ul>';
+                echo '<ul class="safp-products">';
                 while ($query->have_posts()) {
                     $query->the_post();
-                    echo '<li>' . get_the_title() . '</li>';
+                    global $product;
+
+                    $price = $product->get_price_html();
+                    $rating = $product->get_average_rating();
+                    $image = get_the_post_thumbnail($product->get_id(), 'thumbnail');
+                    $add_to_cart_url = $product->add_to_cart_url();
+                    ?>
+                    <li class="safp-product-item">
+                        <a href="<?php the_permalink(); ?>" class="safp-product-link">
+                            <?php echo $image; ?>
+                            <h2 class="safp-product-title"><?php the_title(); ?></h2>
+                            <?php if ($rating) : ?>
+                                <div class="safp-product-rating">
+                                    <?php echo wc_get_rating_html($rating); ?>
+                                </div>
+                            <?php endif; ?>
+                            <div class="safp-product-price">
+                                <?php echo $price; ?>
+                            </div>
+                            <a href="<?php echo esc_url($add_to_cart_url); ?>" class="safp-add-to-cart-button">Añadir al carrito</a>
+                        </a>
+                    </li>
+                    <?php
                 }
                 echo '</ul>';
                 wp_reset_postdata();
@@ -116,7 +138,7 @@ function search_advanced_filter_shortcode($atts) {
         }
         ?>
     </div>
-    <?php
+<?php
     return ob_get_clean();
 }
 
