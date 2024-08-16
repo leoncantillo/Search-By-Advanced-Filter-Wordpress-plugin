@@ -4,7 +4,6 @@ if (!defined('ABSPATH')) {
 }
 
 function search_advanced_filter_shortcode($atts) {
-    // Obtener términos de cada taxonomía
     $marcas = get_terms(array(
         'taxonomy' => 'marca',
         'hide_empty' => false,
@@ -18,7 +17,6 @@ function search_advanced_filter_shortcode($atts) {
         'hide_empty' => false,
     ));
 
-    // Verificar si get_terms no devolvió errores y los términos están en forma de objetos
     if (is_array($marcas) && !empty($marcas) && isset($marcas[0]->slug)) {
         $marcas_array = $marcas;
     } else {
@@ -37,7 +35,6 @@ function search_advanced_filter_shortcode($atts) {
         $años_array = [];
     }
 
-    // HTML del formulario de selección
     ob_start();
     ?>
     <form id="safp-filter-form" method="GET">
@@ -68,7 +65,6 @@ function search_advanced_filter_shortcode($atts) {
     <div id="safp-filtered-results">
         <?php
         if (isset($_GET['marca']) || isset($_GET['modelo']) || isset($_GET['ano'])) {
-            // Parámetros de la consulta
             $args = array(
                 'post_type' => 'product',
                 'tax_query' => array(
@@ -110,7 +106,13 @@ function search_advanced_filter_shortcode($atts) {
 
                     $price = $product->get_price_html();
                     $rating = $product->get_average_rating();
-                    $image = get_the_post_thumbnail($product->get_id(), 'thumbnail');
+                    
+                    if (has_post_thumbnail()) {
+                        $image = get_the_post_thumbnail($product->get_id(), 'thumbnail');
+                    } else {
+                        $image = '<img src="' . esc_url(wc_placeholder_img_src()) . '" alt="Placeholder" />';
+                    }
+
                     $add_to_cart_url = $product->add_to_cart_url();
                     ?>
                     <li class="safp-product-item">
@@ -138,7 +140,7 @@ function search_advanced_filter_shortcode($atts) {
         }
         ?>
     </div>
-<?php
+    <?php
     return ob_get_clean();
 }
 
