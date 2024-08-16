@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once plugin_dir_path(__FILE__) . 'includes/enqueue-scripts.php';
 
 // Shortcode
-require_once plugin_dir_path(__FILE__) . 'public/shortcodes/search_advanced_filter_shortcode.php';
+require_once plugin_dir_path(__FILE__) . 'public/shortcodes/search-advanced-filter-shortcode.php';
 
 // Admin functions (if any)
 require_once plugin_dir_path(__FILE__) . 'admin/admin-functions.php';
