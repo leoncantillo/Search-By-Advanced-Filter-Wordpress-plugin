@@ -119,29 +119,36 @@ function search_advanced_filter_shortcode($atts) {
 
                     $price = $product->get_price_html();
                     $rating = $product->get_average_rating();
-                    
+
                     if (has_post_thumbnail()) {
-                        $image = get_the_post_thumbnail($product->get_id(), 'thumbnail');
+                        $image = get_the_post_thumbnail($product->get_id(), 'full', array('class' => 'safp-product-image'));
                     } else {
-                        $image = '<img src="' . esc_url(wc_placeholder_img_src()) . '" alt="Placeholder" />';
-                    }
+                        $image = '<img src="' . esc_url(wc_placeholder_img_src('full')) . '" alt="Placeholder" class="safp-product-image" />';
+                    }                                       
 
                     $add_to_cart_url = $product->add_to_cart_url();
                     ?>
                     <li class="safp-product-item">
                         <a href="<?php the_permalink(); ?>" class="safp-product-link">
                             <?php echo $image; ?>
-                            <h2 class="safp-product-title"><?php the_title(); ?></h2>
-                            <?php if ($rating) : ?>
+                        </a>
+                        <div class="safp-product-details">
+                            <h2 class="safp-product-title">
+                                <a href="<?php the_permalink(); ?>" class="safp-product-title-link">
+                                    <?php the_title(); ?>
+                                </a>
+                            </h2>
+                            <div class="safp-product-info">
                                 <div class="safp-product-rating">
                                     <?php echo wc_get_rating_html($rating); ?>
                                 </div>
-                            <?php endif; ?>
-                            <div class="safp-product-price">
-                                <?php echo $price; ?>
+                                <div class="safp-product-price">
+                                    <?php echo $price; ?>
+                                </div>
+                                <a href="<?php echo esc_url($add_to_cart_url); ?>" class="safp-add-to-cart-button">Añadir al carrito</a>
                             </div>
-                            <a href="<?php echo esc_url($add_to_cart_url); ?>" class="safp-add-to-cart-button">Añadir al carrito</a>
-                        </a>
+                        </div>
+
                     </li>
                     <?php
                 }
@@ -153,6 +160,6 @@ function search_advanced_filter_shortcode($atts) {
         }
         ?>
     </div>
-    <?php
+<?php
     return ob_get_clean();
 }
