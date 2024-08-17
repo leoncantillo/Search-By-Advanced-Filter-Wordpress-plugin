@@ -1,45 +1,108 @@
+#safp-filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+#safp-filter-form select {
+    flex: 1;
+    min-width: 200px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#safp-filter-form button {
+    background-color: #003D91;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#safp-filter-form button:hover {
+    background-color: #002a6b;
+}
+
 .safp-products {
-    list-style: none;
     padding: 0;
 }
+
 .safp-product-item {
     border: 1px solid #ddd;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+        gap: 40px;
     margin-bottom: 20px;
-    padding: 10px;
-    text-align: center;
+    padding: 10px; 
 }
-.safp-product-item img {
-    max-width: 100%;
-    height: auto;
+
+.safp-product-link .safp-product-image {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
+
+.safp-product-details {
+    flex: 1;
+}
+
 .safp-product-title {
     font-size: 18px;
-    margin: 10px 0;
+    margin: 0 0 10px;
 }
+
+.safp-product-info {
+    display: flex;
+    flex-direction: column;
+}
+
 .safp-product-rating {
-    margin: 10px 0;
+    margin-bottom: 10px;
 }
+
 .safp-product-rating .star-rating {
     font-size: 1rem;
 }
+
 .safp-product-price {
     font-size: 16px;
-    margin: 10px 0;
+    margin-bottom: 10px;
 }
-.safp-add-to-cart-button {
+
+.safp-product-info .safp-add-to-cart-button {
     background-color: var(--e-global-color-d49ac81);
     border-color: var(--e-global-color-d49ac81);
     border-radius: 5px;
     border-style: solid;
-    border-width: 0px 0px 0px 0px;
+    border-width: 0;
     color: var(--e-global-color-secondary);
     font-weight: var(--e-global-typography-accent-font-weight);
-    letter-spacing: var( --e-global-typography-accent-letter-spacing );
+    letter-spacing: var(--e-global-typography-accent-letter-spacing);
     padding: 10px 20px;
+    text-align: center;
     text-decoration: none;
-    text-transform: var( --e-global-typography-accent-text-transform );
+    text-transform: var(--e-global-typography-accent-text-transform);
     display: inline-block;
 }
-.safp-add-to-cart-button:hover {
+
+.safp-product-info .safp-add-to-cart-button:hover {
     background-color: var(--e-global-color-secondary);
+}
+
+@media (min-width: 600px) {
+    #safp-filter-form select {
+        flex: 1 1 calc(33.333% - 10px);
+    }
+}
+
+@media (max-width: 599px) {
+    #safp-filter-form select {
+        flex: 1 1 100%; 
+    }
 }
